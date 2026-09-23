@@ -26,6 +26,7 @@
             color: var(--text-color);
             line-height: 1.6;
             padding: 20px;
+            padding-bottom: 80px; /* Espaço para o painel flutuante */
         }
 
         .container {
@@ -185,9 +186,111 @@
             font-size: 0.9rem;
         }
 
+        /* --- ESTILOS DO PAINEL FLUTUANTE DE ADMINISTRADOR --- */
+        .admin-floating-panel {
+            position: fixed;
+            bottom: 20px;
+            left: 20px;
+            background: rgba(13, 13, 13, 0.95);
+            border: 1px solid #444;
+            border-radius: 12px;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.8);
+            z-index: 9999;
+            width: 300px;
+            font-size: 0.85rem;
+            backdrop-filter: blur(8px);
+            transition: all 0.3s ease;
+        }
+
+        .admin-header {
+            background: #1e1e1e;
+            padding: 10px 15px;
+            border-top-left-radius: 12px;
+            border-top-right-radius: 12px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid #333;
+            cursor: pointer;
+        }
+
+        .admin-header h4 {
+            color: #ffffff;
+            font-size: 0.9rem;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .admin-header .status-dot {
+            width: 8px;
+            height: 8px;
+            background-color: #00ff66;
+            border-radius: 50%;
+            display: inline-block;
+        }
+
+        .admin-body {
+            padding: 12px 15px;
+            max-height: 250px;
+            overflow-y: auto;
+        }
+
+        .admin-stat {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 8px;
+            color: var(--text-secondary);
+        }
+
+        .admin-stat span {
+            color: #ffffff;
+            font-weight: bold;
+        }
+
+        .admin-logs {
+            margin-top: 10px;
+            border-top: 1px solid #222;
+            padding-top: 8px;
+        }
+
+        .admin-logs-title {
+            font-size: 0.75rem;
+            color: #777;
+            margin-bottom: 6px;
+            text-transform: uppercase;
+        }
+
+        .log-list {
+            list-style: none;
+            max-height: 90px;
+            overflow-y: auto;
+            font-family: monospace;
+            font-size: 0.75rem;
+        }
+
+        .log-item {
+            color: #00ff66;
+            margin-bottom: 4px;
+            word-break: break-all;
+        }
+
+        .admin-toggle-btn {
+            background: none;
+            border: none;
+            color: #aaa;
+            font-size: 1rem;
+            cursor: pointer;
+        }
+
         @media (max-width: 600px) {
             h1 { font-size: 2rem; }
             .pix-container { flex-direction: column; }
+            .admin-floating-panel {
+                width: calc(100% - 40px);
+                bottom: 10px;
+                left: 20px;
+            }
         }
     </style>
 </head>
@@ -258,7 +361,34 @@
         </footer>
     </div>
 
+    <!-- PAINEL FLUTUANTE DE ADMINISTRADOR -->
+    <div class="admin-floating-panel" id="adminPanel">
+        <div class="admin-header" onclick="toggleAdminPanel()">
+            <h4><span class="status-dot"></span> Painel Admin DegaOj</h4>
+            <button class="admin-toggle-btn" id="adminToggleIcon">▼</button>
+        </div>
+        <div class="admin-body" id="adminContent">
+            <div class="admin-stat">
+                Visualizações Totais: <span id="statViews">0</span>
+            </div>
+            <div class="admin-stat">
+                Visitantes Únicos: <span id="statUnique">0</span>
+            </div>
+            <div class="admin-stat">
+                Cliques no Pix (Apoiadores): <span id="statPixClicks">0</span>
+            </div>
+
+            <div class="admin-logs">
+                <div class="admin-logs-title">Atividades em Tempo Real</div>
+                <ul class="log-list" id="logList">
+                    <!-- Registros de entrada e cliques entram aqui -->
+                </ul>
+            </div>
+        </div>
+    </div>
+
     <script>
+        // LÓGICA DO SITE
         function copyPix() {
             const pixKey = document.getElementById("pixKey").innerText;
             navigator.clipboard.writeText(pixKey).then(() => {
@@ -267,11 +397,73 @@
                 setTimeout(() => {
                     feedback.style.display = "none";
                 }, 3000);
+
+                // Registrar clique no Pix no Painel Admin
+                registerPixClick();
             });
         }
+
+        // LÓGICA DO PAINEL DE ADMINISTRADOR
+        function initAdminStats() {
+            // Contagem de Visualizações Totais
+            let views = parseInt(localStorage.getItem('degaoj_views') || '0') + 1;
+            localStorage.setItem('degaoj_views', views);
+            document.getElementById('statViews').innerText = views;
+
+            // Visitantes Únicos
+            let isUnique = localStorage.getItem('degaoj_visited');
+            let uniqueCount = parseInt(localStorage.getItem('degaoj_unique') || '0');
+            if (!isUnique) {
+                uniqueCount += 1;
+                localStorage.setItem('degaoj_visited', 'true');
+                localStorage.setItem('degaoj_unique', uniqueCount);
+            }
+            document.getElementById('statUnique').innerText = uniqueCount;
+
+            // Cliques no Pix
+            let pixClicks = parseInt(localStorage.getItem('degaoj_pix_clicks') || '0');
+            document.getElementById('statPixClicks').innerText = pixClicks;
+
+            // Log de Acesso
+            addAdminLog("Novo visitante acessou o link");
+        }
+
+        function registerPixClick() {
+            let pixClicks = parseInt(localStorage.getItem('degaoj_pix_clicks') || '0') + 1;
+            localStorage.setItem('degaoj_pix_clicks', pixClicks);
+            document.getElementById('statPixClicks').innerText = pixClicks;
+
+            addAdminLog("Visitante copiou a chave Pix!");
+        }
+
+        function addAdminLog(message) {
+            const now = new Date();
+            const timeStr = now.toLocaleTimeString('pt-BR');
+            const logList = document.getElementById('logList');
+            const li = document.createElement('li');
+            li.className = 'log-item';
+            li.innerText = `[${timeStr}] ${message}`;
+            logList.insertBefore(li, logList.firstChild);
+        }
+
+        function toggleAdminPanel() {
+            const content = document.getElementById('adminContent');
+            const icon = document.getElementById('adminToggleIcon');
+            if (content.style.display === 'none') {
+                content.style.display = 'block';
+                icon.innerText = '▼';
+            } else {
+                content.style.display = 'none';
+                icon.innerText = '▲';
+            }
+        }
+
+        // Inicializa as métricas ao carregar a página
+        window.onload = initAdminStats;
     </script>
 </body>
 </html>
+
 
                     
 
