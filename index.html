@@ -3,466 +3,217 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Projeto Anime DegaOj - Apoie o Lançamento 2026</title>
+    <title>Anime DegaOj - Comunidade de Produção Independente</title>
     <style>
-        :root {
-            --bg-color: #000000;
-            --card-bg: #0d0d0d;
-            --text-color: #ffffff;
-            --text-secondary: #a0a0a0;
-            --border-color: #333333;
-            --accent-white: #ffffff;
-        }
-
+        /* Estilos Gerais (Visual Dark/Anime) */
         * {
-            box-sizing: border-box;
             margin: 0;
             padding: 0;
-            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
 
         body {
-            background-color: var(--bg-color);
-            color: var(--text-color);
+            background-color: #0b0c10;
+            color: #c5c6c7;
             line-height: 1.6;
-            padding: 20px;
-            padding-bottom: 80px; /* Espaço para o painel flutuante */
-        }
-
-        .container {
-            max-width: 900px;
-            margin: 0 auto;
         }
 
         header {
+            background: linear-gradient(135deg, #1f2833, #0b0c10);
+            padding: 40px 20px;
             text-align: center;
-            padding: 40px 0 20px 0;
-            border-bottom: 1px solid var(--border-color);
+            border-bottom: 3px solid #66fcf1;
         }
 
         h1 {
-            font-size: 2.8rem;
+            color: #66fcf1;
+            font-size: 2.5rem;
             letter-spacing: 2px;
-            text-transform: uppercase;
             margin-bottom: 10px;
         }
 
-        .subtitle {
-            color: var(--text-secondary);
-            font-size: 1.1rem;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
-
-        .badge {
-            display: inline-block;
-            background-color: var(--text-color);
-            color: var(--bg-color);
-            padding: 4px 12px;
+        .highlight {
+            color: #45f3ff;
             font-weight: bold;
-            border-radius: 20px;
-            margin-top: 15px;
-            font-size: 0.85rem;
         }
 
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        /* Seções */
         section {
-            margin: 40px 0;
+            background-color: #1f2833;
+            padding: 30px;
+            margin: 20px 0;
+            border-radius: 8px;
+            border-left: 5px solid #66fcf1;
         }
 
         h2 {
-            font-size: 1.8rem;
-            margin-bottom: 20px;
-            border-left: 4px solid var(--accent-white);
-            padding-left: 10px;
-            text-transform: uppercase;
-        }
-
-        p {
-            color: var(--text-secondary);
+            color: #fff;
             margin-bottom: 15px;
-            font-size: 1.05rem;
         }
 
-        .synopsis-card {
-            background-color: var(--card-bg);
-            border: 1px solid var(--border-color);
-            padding: 25px;
-            border-radius: 8px;
-        }
-
-        .character-highlight {
-            color: var(--text-color);
-            font-weight: bold;
-        }
-
-        .crowdfunding-box {
-            background-color: var(--card-bg);
-            border: 2px solid var(--accent-white);
-            border-radius: 8px;
-            padding: 30px;
-            text-align: center;
-        }
-
-        .pix-container {
-            background-color: #1a1a1a;
-            border: 1px dashed var(--accent-white);
-            padding: 15px;
-            border-radius: 6px;
-            margin: 20px 0;
+        /* Sistema de Cards das Cotas */
+        .cotas-container {
             display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
-            word-break: break-all;
-        }
-
-        .pix-key {
-            font-family: monospace;
-            font-size: 1.2rem;
-            color: #ffffff;
-            font-weight: bold;
-        }
-
-        .btn-copy {
-            background-color: var(--text-color);
-            color: var(--bg-color);
-            border: none;
-            padding: 8px 16px;
-            font-weight: bold;
-            cursor: pointer;
-            border-radius: 4px;
-            transition: opacity 0.2s;
-        }
-
-        .btn-copy:hover {
-            opacity: 0.8;
-        }
-
-        .tiers-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
             gap: 20px;
+            flex-wrap: wrap;
             margin-top: 20px;
         }
 
-        .tier-card {
-            background-color: var(--card-bg);
-            border: 1px solid var(--border-color);
-            padding: 20px;
+        .card {
+            background-color: #0b0c10;
+            border: 1px solid #45f3ff;
             border-radius: 8px;
-            text-align: left;
+            padding: 20px;
+            flex: 1;
+            min-width: 250px;
+            text-align: center;
         }
 
-        .tier-card h3 {
-            font-size: 1.4rem;
+        .price {
+            font-size: 2rem;
+            color: #66fcf1;
+            margin: 10px 0;
+            font-weight: bold;
+        }
+
+        /* Botão do Pix */
+        .pix-box {
+            background: #112233;
+            border: 2px dashed #66fcf1;
+            padding: 15px;
+            text-align: center;
+            margin-top: 15px;
+            border-radius: 5px;
+        }
+
+        .btn-copy {
+            background-color: #66fcf1;
+            color: #0b0c10;
+            border: none;
+            padding: 10px 20px;
+            font-weight: bold;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 10px;
+            transition: 0.3s;
+        }
+
+        .btn-copy:hover {
+            background-color: #45f3ff;
+            transform: scale(1.05);
+        }
+
+        /* Imagens */
+        .banner-img {
+            width: 100%;
+            max-height: 400px;
+            object-fit: cover;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+
+        /* Lista de Passos */
+        ul {
+            list-style-position: inside;
+            margin-left: 10px;
+        }
+
+        li {
             margin-bottom: 10px;
-            border-bottom: 1px solid var(--border-color);
-            padding-bottom: 8px;
-        }
-
-        .roadmap-list {
-            list-style: none;
-        }
-
-        .roadmap-list li {
-            position: relative;
-            padding-left: 25px;
-            margin-bottom: 15px;
-            color: var(--text-secondary);
-        }
-
-        .roadmap-list li::before {
-            content: "■";
-            position: absolute;
-            left: 0;
-            color: var(--text-color);
         }
 
         footer {
             text-align: center;
-            padding: 30px 0;
-            border-top: 1px solid var(--border-color);
-            color: var(--text-secondary);
+            padding: 20px;
             font-size: 0.9rem;
-        }
-
-        /* --- ESTILOS DO PAINEL FLUTUANTE DE ADMINISTRADOR --- */
-        .admin-floating-panel {
-            position: fixed;
-            bottom: 20px;
-            left: 20px;
-            background: rgba(13, 13, 13, 0.95);
-            border: 1px solid #444;
-            border-radius: 12px;
-            box-shadow: 0 8px 24px rgba(0,0,0,0.8);
-            z-index: 9999;
-            width: 300px;
-            font-size: 0.85rem;
-            backdrop-filter: blur(8px);
-            transition: all 0.3s ease;
-        }
-
-        .admin-header {
-            background: #1e1e1e;
-            padding: 10px 15px;
-            border-top-left-radius: 12px;
-            border-top-right-radius: 12px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            border-bottom: 1px solid #333;
-            cursor: pointer;
-        }
-
-        .admin-header h4 {
-            color: #ffffff;
-            font-size: 0.9rem;
-            display: flex;
-            align-items: center;
-            gap: 6px;
-        }
-
-        .admin-header .status-dot {
-            width: 8px;
-            height: 8px;
-            background-color: #00ff66;
-            border-radius: 50%;
-            display: inline-block;
-        }
-
-        .admin-body {
-            padding: 12px 15px;
-            max-height: 250px;
-            overflow-y: auto;
-        }
-
-        .admin-stat {
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 8px;
-            color: var(--text-secondary);
-        }
-
-        .admin-stat span {
-            color: #ffffff;
-            font-weight: bold;
-        }
-
-        .admin-logs {
-            margin-top: 10px;
-            border-top: 1px solid #222;
-            padding-top: 8px;
-        }
-
-        .admin-logs-title {
-            font-size: 0.75rem;
-            color: #777;
-            margin-bottom: 6px;
-            text-transform: uppercase;
-        }
-
-        .log-list {
-            list-style: none;
-            max-height: 90px;
-            overflow-y: auto;
-            font-family: monospace;
-            font-size: 0.75rem;
-        }
-
-        .log-item {
-            color: #00ff66;
-            margin-bottom: 4px;
-            word-break: break-all;
-        }
-
-        .admin-toggle-btn {
-            background: none;
-            border: none;
-            color: #aaa;
-            font-size: 1rem;
-            cursor: pointer;
-        }
-
-        @media (max-width: 600px) {
-            h1 { font-size: 2rem; }
-            .pix-container { flex-direction: column; }
-            .admin-floating-panel {
-                width: calc(100% - 40px);
-                bottom: 10px;
-                left: 20px;
-            }
+            color: #c5c6c7;
+            border-top: 1px solid #1f2833;
         }
     </style>
 </head>
 <body>
 
+    <header>
+        <h1>DEGAOJ</h1>
+        <p>O Novo Anime Fantástico Independente • Previsão 2026</p>
+    </header>
+
     <div class="container">
-        <header>
-            <h1>DEGAOJ</h1>
-            <p class="subtitle">O Novo Anime Fantástico Independente</p>
-            <span class="badge">Previsão de Lançamento: 2026</span>
-        </header>
 
-        <section id="sobre">
-            <h2>Sobre o Projeto</h2>
-            <div class="synopsis-card">
-                <p>
-                    <span class="character-highlight">DegaOj</span> é uma obra original de alta fantasia e ação. 
-                    A história acompanha o jovem <span class="character-highlight">Kael</span>, portador de um misterioso 
-                    <strong>Colar de Dragão</strong>, em um universo repleto de Semideuses, combates épicos e segredos ancestrais.
-                </p>
-                <p>
-                    Com múltiplos personagens profundos e um ecossistema de poder único, nosso objetivo é dar vida 
-                    a essa jornada em formato de animação 2D de alta qualidade.
-                </p>
-            </div>
+        <!-- Banner Principal do Anime -->
+        <!-- Substitua 'banner.jpg' pela arte oficial do Kael com o colar de dragão -->
+        <img src="banner.jpg" alt="Arte oficial do Anime DegaOj - O jovem Kael com o Colar de Dragão" class="banner-img">
+
+        <section>
+            <h2>✨ Sobre o Universo DegaOj</h2>
+            <p>DegaOj é uma obra original de alta fantasia e ação. A história acompanha o jovem <span class="highlight">Kael, portador de um misterioso Colar de Dragão</span>, em um universo repleto de Semideuses, combates épicos e segredos ancestrais.</p>
         </section>
 
-        <section id="apoiar">
-            <h2>Financiamento Coletivo (Pix)</h2>
-            <div class="crowdfunding-box">
-                <h3>Ajude a Produzir o Anime DegaOj</h3>
-                <p>Com contribuições a partir de <strong>R$ 5,00 a R$ 10,00</strong>, você financia diretamente a contratação de designers e animadores 2D especializados.</p>
-
-                <div class="pix-container">
-                    <span>Chave Pix (CNPJ):</span>
-                    <span class="pix-key" id="pixKey">65244676000176</span>
-                    <button class="btn-copy" onclick="copyPix()">Copiar Chave</button>
-                </div>
-                <p id="copyFeedback" style="font-size: 0.85rem; color: #00ff66; display: none;">Chave Pix copiada com sucesso!</p>
-            </div>
-
-            <div class="tiers-grid">
-                <div class="tier-card">
-                    <h3>Cota R$ 5,00</h3>
-                    <p> Apoio Fundamental</p>
-                    <p> Direito de ajudar a moldar personalidades de personagens secundários e acesso a atualizações de produção.</p>
-                </div>
-                <div class="tier-card">
-                    <h3>Cota R$ 10,00</h3>
-                    <p> Co-Criador Participativo</p>
-                    <p> Direito de ajudar na criação de fichas técnicas de personagens, sugestões no roteiro e nome nos créditos.</p>
-                </div>
-            </div>
-        </section>
-
-        <section id="objetivos">
-            <h2>Plano de Produção</h2>
-            <ul class="roadmap-list">
-                <li><strong>Fase 1:</strong> Contratação de Designers e Animadores 2D (domínio de softwares profissionais).</li>
-                <li><strong>Fase 2:</strong> Produção e publicação de 3 episódios curtos (Teasers/Pilotos).</li>
-                <li><strong>Fase 3:</strong> Captação para exibição em plataformas/Showcase e episódios completos.</li>
+        <section>
+            <h2>🚀 Nosso Plano de Produção (Ciclos)</h2>
+            <p>Criamos um modelo de comunidade onde todos ajudam a construir e todos ganham se der certo!</p>
+            <br>
+            <ul>
+                <li><strong>Passo 1 (Webtoon & Curtos):</strong> Lançamento inicial em formato Webtoon (quadrinhos). Produção de episódios pilotos e vídeos curtos de 4 minutos para postar no <strong>YouTube e Kwai</strong>. Com a monetização ativa, a receita retorna para a comunidade.</li>
+                <li><strong>Passo 2 (Expansão):</strong> Publicação em plataformas de streaming como a <strong>Crunchyroll</strong> para chamar a atenção de grandes produtoras e expandir para episódios completos de animação 2D.</li>
             </ul>
         </section>
 
-        <footer>
-            <p>&copy; 2026 Projeto DegaOj - Todos os direitos reservados.</p>
-            <p>Contribuição direta para contratação de equipe de animação independente.</p>
-        </footer>
-    </div>
-
-    <!-- PAINEL FLUTUANTE DE ADMINISTRADOR -->
-    <div class="admin-floating-panel" id="adminPanel">
-        <div class="admin-header" onclick="toggleAdminPanel()">
-            <h4><span class="status-dot"></span> Painel Admin DegaOj</h4>
-            <button class="admin-toggle-btn" id="adminToggleIcon">▼</button>
-        </div>
-        <div class="admin-body" id="adminContent">
-            <div class="admin-stat">
-                Visualizações Totais: <span id="statViews">0</span>
-            </div>
-            <div class="admin-stat">
-                Visitantes Únicos: <span id="statUnique">0</span>
-            </div>
-            <div class="admin-stat">
-                Cliques no Pix (Apoiadores): <span id="statPixClicks">0</span>
+        <section>
+            <h2>💎 Financiamento Coletivo da Comunidade</h2>
+            <p>Participe do primeiro ciclo de arrecadação. Escolha sua cota e ajude a financiar designers e animadores profissionais:</p>
+            
+            <div class="cotas-container">
+                <!-- Cota 1 -->
+                <div class="card">
+                    <h3>Apoio Fundamental</h3>
+                    <div class="price">R$ 5,00</div>
+                    <p>Ajude a moldar a personalidade e o visual de personagens secundários da história. Acesso a atualizações.</p>
+                </div>
+                <!-- Cota 2 -->
+                <div class="card">
+                    <h3>Co-Criador Participativo</h3>
+                    <div class="price">R$ 10,00</div>
+                    <p>Direito de sugerir ideias no roteiro, ajudar nas fichas técnicas dos personagens e seu nome nos créditos do anime.</p>
+                </div>
             </div>
 
-            <div class="admin-logs">
-                <div class="admin-logs-title">Atividades em Tempo Real</div>
-                <ul class="log-list" id="logList">
-                    <!-- Registros de entrada e cliques entram aqui -->
-                </ul>
+            <!-- Área do Pix -->
+            <div class="pix-box">
+                <p><strong>Chave Pix (CNPJ):</strong> <code>65244676000176</code></p>
+                <button class="btn-copy" onclick="copiarPix()">Copiar Chave Pix</button>
+                <p id="feedback" style="color: #66fcf1; margin-top: 5px; display: none;">✓ Chave copiada com sucesso!</p>
             </div>
-        </div>
+        </section>
+
     </div>
+
+    <footer>
+        <p>&copy; 2026 Projeto DegaOj - animenex-producao.duckdns.org. Todos os direitos reservados.</p>
+    </footer>
 
     <script>
-        // LÓGICA DO SITE
-        function copyPix() {
-            const pixKey = document.getElementById("pixKey").innerText;
-            navigator.clipboard.writeText(pixKey).then(() => {
-                const feedback = document.getElementById("copyFeedback");
-                feedback.style.display = "block";
-                setTimeout(() => {
-                    feedback.style.display = "none";
-                }, 3000);
-
-                // Registrar clique no Pix no Painel Admin
-                registerPixClick();
-            });
+        // Função simples para facilitar a cópia do Pix pelo celular/PC
+        function copiarPix() {
+            navigator.clipboard.writeText("65244676000176");
+            const feedback = document.getElementById("feedback");
+            feedback.style.display = "block";
+            setTimeout(() => {
+                feedback.style.display = "none";
+            }, 3000);
         }
-
-        // LÓGICA DO PAINEL DE ADMINISTRADOR
-        function initAdminStats() {
-            // Contagem de Visualizações Totais
-            let views = parseInt(localStorage.getItem('degaoj_views') || '0') + 1;
-            localStorage.setItem('degaoj_views', views);
-            document.getElementById('statViews').innerText = views;
-
-            // Visitantes Únicos
-            let isUnique = localStorage.getItem('degaoj_visited');
-            let uniqueCount = parseInt(localStorage.getItem('degaoj_unique') || '0');
-            if (!isUnique) {
-                uniqueCount += 1;
-                localStorage.setItem('degaoj_visited', 'true');
-                localStorage.setItem('degaoj_unique', uniqueCount);
-            }
-            document.getElementById('statUnique').innerText = uniqueCount;
-
-            // Cliques no Pix
-            let pixClicks = parseInt(localStorage.getItem('degaoj_pix_clicks') || '0');
-            document.getElementById('statPixClicks').innerText = pixClicks;
-
-            // Log de Acesso
-            addAdminLog("Novo visitante acessou o link");
-        }
-
-        function registerPixClick() {
-            let pixClicks = parseInt(localStorage.getItem('degaoj_pix_clicks') || '0') + 1;
-            localStorage.setItem('degaoj_pix_clicks', pixClicks);
-            document.getElementById('statPixClicks').innerText = pixClicks;
-
-            addAdminLog("Visitante copiou a chave Pix!");
-        }
-
-        function addAdminLog(message) {
-            const now = new Date();
-            const timeStr = now.toLocaleTimeString('pt-BR');
-            const logList = document.getElementById('logList');
-            const li = document.createElement('li');
-            li.className = 'log-item';
-            li.innerText = `[${timeStr}] ${message}`;
-            logList.insertBefore(li, logList.firstChild);
-        }
-
-        function toggleAdminPanel() {
-            const content = document.getElementById('adminContent');
-            const icon = document.getElementById('adminToggleIcon');
-            if (content.style.display === 'none') {
-                content.style.display = 'block';
-                icon.innerText = '▼';
-            } else {
-                content.style.display = 'none';
-                icon.innerText = '▲';
-            }
-        }
-
-        // Inicializa as métricas ao carregar a página
-        window.onload = initAdminStats;
     </script>
+
 </body>
 </html>
+
 
 
                     
