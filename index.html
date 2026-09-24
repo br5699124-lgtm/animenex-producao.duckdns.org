@@ -18,6 +18,7 @@
             --cyan: #67f5e7;
             --cyan-dark: #2dd4c5;
             --purple: #9b6cff;
+            --pink: #ff6bd6;
             --line: rgba(138, 196, 215, .18);
             --shadow: 0 24px 70px rgba(0, 0, 0, .35);
             --radius: 18px;
@@ -27,53 +28,98 @@
         html { scroll-behavior: smooth; }
         body {
             min-width: 320px;
-            background: var(--bg);
+            background:
+                radial-gradient(circle at top, rgba(103,245,231,.12), transparent 25%),
+                radial-gradient(circle at right, rgba(155,108,255,.14), transparent 30%),
+                var(--bg);
             color: var(--text);
             font: 1rem/1.7 Inter, system-ui, sans-serif;
             overflow-x: hidden;
         }
+
         body::before {
             content: '';
             position: fixed;
             inset: 0;
             pointer-events: none;
-            opacity: .3;
+            opacity: .35;
             background-image: linear-gradient(rgba(255,255,255,.018) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,.018) 1px, transparent 1px);
             background-size: 48px 48px;
             mask-image: linear-gradient(to bottom, black, transparent 75%);
         }
+
+        body::after {
+            content: '';
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
+            background: linear-gradient(to bottom, transparent 0%, rgba(8,11,18,.2) 55%, rgba(8,11,18,.72) 100%);
+            z-index: 0;
+        }
+
         a { color: inherit; text-decoration: none; }
         img { display: block; max-width: 100%; }
         button, input, textarea { font: inherit; }
-        .container { width: min(1160px, calc(100% - 40px)); margin-inline: auto; }
+        .container { position: relative; z-index: 1; width: min(1160px, calc(100% - 40px)); margin-inline: auto; }
         .skip-link { position: absolute; left: 12px; top: -60px; z-index: 100; background: var(--cyan); color: #071016; padding: 10px 16px; border-radius: 8px; font-weight: 800; }
         .skip-link:focus { top: 12px; }
 
         .site-header { position: sticky; top: 0; z-index: 20; background: rgba(7,10,17,.78); border-bottom: 1px solid var(--line); backdrop-filter: blur(18px); }
         .nav { min-height: 76px; display: flex; align-items: center; justify-content: space-between; gap: 24px; }
         .logo { display: inline-flex; align-items: center; gap: 10px; color: var(--text); font: 700 1.2rem 'Space Grotesk', sans-serif; letter-spacing: 3px; }
-        .logo-mark { width: 30px; height: 30px; display: grid; place-items: center; color: var(--bg); background: linear-gradient(135deg, var(--cyan), var(--purple)); border-radius: 9px; font-size: .9rem; }
+        .logo-mark { width: 30px; height: 30px; display: grid; place-items: center; color: var(--bg); background: linear-gradient(135deg, var(--cyan), var(--purple)); border-radius: 9px; font-size: .9rem; box-shadow: 0 15px 30px rgba(103,245,231,.28); }
         .nav-links { display: flex; align-items: center; gap: 26px; list-style: none; }
         .nav-links a { color: var(--muted); font-size: .9rem; font-weight: 600; transition: color .2s; }
         .nav-links a:hover, .nav-links a:focus-visible { color: var(--cyan); }
         .nav-cta { border: 1px solid var(--line); border-radius: 999px; padding: 8px 15px; color: var(--cyan) !important; }
         .menu-toggle { display: none; border: 1px solid var(--line); border-radius: 9px; padding: 7px 10px; background: transparent; color: var(--cyan); cursor: pointer; font-size: 1.2rem; }
 
-        .hero { position: relative; min-height: 700px; display: grid; place-items: center; text-align: center; padding: 120px 20px 150px; isolation: isolate; background: radial-gradient(circle at 50% 38%, rgba(59, 88, 143, .26), transparent 36%), linear-gradient(120deg, rgba(7,10,17,.98), rgba(10,26,43,.6)), url('banner.jpg') center/cover; }
-        .hero::after { content: ''; position: absolute; inset: auto 0 0; height: 180px; z-index: -1; background: linear-gradient(transparent, var(--bg)); }
-        .hero-content { max-width: 800px; animation: rise .8s ease both; }
+        .hero {
+            position: relative; z-index: 1;
+            min-height: 700px; display: grid; place-items: center; text-align: center; padding: 120px 20px 150px; isolation: isolate; overflow: hidden;
+            background:
+                radial-gradient(circle at 50% 28%, rgba(103,245,231,.16), transparent 20%),
+                radial-gradient(circle at 50% 80%, rgba(155,108,255,.2), transparent 28%),
+                linear-gradient(180deg, rgba(9,14,20,0.86), rgba(7,10,17,0.95));
+        }
+
+        .hero::before,
+        .hero::after {
+            content: '';
+            position: absolute; inset: auto;
+            width: 520px; height: 520px;
+            border-radius: 50%;
+            filter: blur(80px);
+            opacity: .22;
+            z-index: -1;
+            animation: pulse 8s ease-in-out infinite alternate;
+        }
+
+        .hero::before { background: rgba(103,245,231,.45); bottom: -160px; left: -80px; }
+        .hero::after { background: rgba(155,108,255,.42); top: -120px; right: -120px; animation-delay: 1s; }
+
+        .hero::selection { background: rgba(103,245,231,.25); }
+
+        .hero-content { max-width: 820px; animation: rise .8s ease both; }
         .eyebrow { display: inline-flex; align-items: center; gap: 9px; color: var(--cyan); font-size: .76rem; font-weight: 800; letter-spacing: 2px; text-transform: uppercase; }
         .eyebrow::before { content: ''; width: 28px; height: 1px; background: var(--cyan); }
-        h1 { margin: 23px 0 18px; color: #fff; font: 700 clamp(3.5rem, 12vw, 8rem)/.9 'Space Grotesk', sans-serif; letter-spacing: clamp(4px, 1vw, 12px); text-shadow: 0 0 35px rgba(103,245,231,.35); }
+        h1 {
+            margin: 23px 0 18px;
+            color: #fff;
+            font: 700 clamp(3.5rem, 12vw, 8rem)/.9 'Space Grotesk', sans-serif;
+            letter-spacing: clamp(4px, 1vw, 12px);
+            text-shadow: 0 0 35px rgba(103,245,231,.35), 0 0 70px rgba(155,108,255,.18);
+            animation: glow 2.7s ease-in-out infinite alternate;
+        }
         .hero-description { max-width: 600px; margin: auto; color: var(--muted); font-size: clamp(1rem, 2vw, 1.25rem); }
         .actions { display: flex; justify-content: center; flex-wrap: wrap; gap: 12px; margin-top: 34px; }
-        .btn { display: inline-flex; justify-content: center; align-items: center; gap: 9px; min-height: 47px; border: 1px solid var(--cyan); border-radius: 9px; padding: 11px 20px; font-weight: 800; cursor: pointer; transition: transform .2s, box-shadow .2s, background .2s; }
+        .btn { display: inline-flex; justify-content: center; align-items: center; gap: 9px; min-height: 47px; border: 1px solid var(--cyan); border-radius: 9px; padding: 11px 20px; font-weight: 800; letter-spacing: .02em; transition: transform .2s ease, box-shadow .2s ease, background .2s ease; }
         .btn:hover { transform: translateY(-3px); box-shadow: 0 12px 28px rgba(103,245,231,.18); }
-        .btn-primary { background: var(--cyan); color: #071016; }
+        .btn-primary { background: linear-gradient(135deg, var(--cyan), #98ffe4); color: #071016; }
         .btn-secondary { background: rgba(8,11,18,.28); color: var(--cyan); }
 
-        main { position: relative; padding-bottom: 40px; }
-        section { margin-bottom: 24px; padding: clamp(28px, 5vw, 58px); background: linear-gradient(145deg, rgba(21,31,45,.92), rgba(13,19,30,.92)); border: 1px solid var(--line); border-radius: var(--radius); box-shadow: var(--shadow); scroll-margin-top: 95px; }
+        main { position: relative; z-index: 1; padding-bottom: 40px; }
+        section { margin-bottom: 24px; padding: clamp(28px, 5vw, 58px); background: linear-gradient(145deg, rgba(21,31,45,.92), rgba(13,19,30,.92)); border: 1px solid var(--line); border-radius: var(--radius); box-shadow: var(--shadow); }
         .section-heading { max-width: 710px; margin: 0 auto 35px; text-align: center; }
         .section-kicker { display: block; margin-bottom: 9px; color: var(--cyan); font-size: .75rem; font-weight: 800; letter-spacing: 2px; text-transform: uppercase; }
         h2 { color: #fff; font: 700 clamp(1.8rem, 4vw, 2.8rem)/1.15 'Space Grotesk', sans-serif; letter-spacing: -.5px; }
@@ -86,7 +132,7 @@
         .card { position: relative; padding: 24px; background: rgba(5,9,16,.58); border: 1px solid var(--line); border-radius: 14px; transition: transform .25s, border-color .25s, background .25s; }
         .card:hover { transform: translateY(-5px); border-color: rgba(103,245,231,.65); background: rgba(12,23,34,.9); }
         .card p { margin-top: 9px; color: var(--muted); font-size: .93rem; }
-        .character-avatar { display: grid; place-items: center; height: 150px; margin: -8px -8px 20px; border-radius: 10px; background: radial-gradient(circle at 30% 20%, rgba(103,245,231,.23), transparent 35%), linear-gradient(135deg, #1e3448, #382758); font-size: 4rem; }
+        .character-avatar { display: grid; place-items: center; height: 150px; margin: -8px -8px 20px; border-radius: 10px; background: radial-gradient(circle at 30% 20%, rgba(103,245,231,.23), transparent 42%), linear-gradient(135deg, rgba(155,108,255,.2), rgba(103,245,231,.08)); border: 1px solid rgba(103,245,231,.18); font-size: 3.8rem; }
         .tag { display: inline-block; margin-top: 17px; padding: 4px 10px; border: 1px solid rgba(103,245,231,.28); border-radius: 999px; color: var(--cyan); font-size: .72rem; font-weight: 700; }
 
         .stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-top: 34px; padding-top: 28px; border-top: 1px solid var(--line); text-align: center; }
@@ -115,12 +161,70 @@
         input:focus, textarea:focus { border-color: var(--cyan); box-shadow: 0 0 0 3px rgba(103,245,231,.12); }
         textarea { min-height: 140px; resize: vertical; }
         .contact-form .btn { width: 100%; }
-        footer { padding: 42px 20px; border-top: 1px solid var(--line); text-align: center; color: var(--muted); }
+
+        .tracker-box {
+            margin: 28px auto 10px;
+            padding: 20px 22px;
+            background: linear-gradient(135deg, rgba(22,30,43,.96), rgba(16,22,34,.9));
+            border: 1px solid var(--line);
+            border-radius: 16px;
+            box-shadow: 0 20px 50px rgba(0,0,0,.24);
+        }
+
+        .tracker-head {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 16px;
+            margin-bottom: 18px;
+            flex-wrap: wrap;
+        }
+
+        .tracker-label {
+            color: var(--cyan);
+            font-size: .72rem;
+            font-weight: 800;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+
+        .tracker-grid {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(120px, 1fr));
+            gap: 14px;
+        }
+
+        .tracker-item {
+            padding: 14px 12px;
+            border: 1px solid var(--line);
+            border-radius: 12px;
+            background: rgba(10,15,22,.65);
+            text-align: center;
+        }
+
+        .tracker-item strong {
+            display: block;
+            color: var(--cyan);
+            font: 700 1.8rem 'Space Grotesk', sans-serif;
+            line-height: 1.1;
+        }
+
+        .tracker-item span {
+            color: var(--muted);
+            font-size: .8rem;
+            letter-spacing: .02em;
+        }
+
+        footer { position: relative; z-index: 1; padding: 42px 20px; border-top: 1px solid var(--line); text-align: center; color: var(--muted); }
         .socials { display: flex; justify-content: center; flex-wrap: wrap; gap: 22px; margin: 18px 0; }
         .socials a, .back-top { color: var(--cyan); font-weight: 700; }
         .socials a:hover, .back-top:hover { color: #fff; }
         .back-top { display: inline-block; margin-top: 14px; font-size: .9rem; }
+
         @keyframes rise { from { opacity: 0; transform: translateY(22px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes pulse { 0% { transform: scale(0.92); opacity: .12; } 100% { transform: scale(1.08); opacity: .26; } }
+        @keyframes glow { from { text-shadow: 0 0 18px rgba(103,245,231,.18), 0 0 45px rgba(155,108,255,.12); } to { text-shadow: 0 0 25px rgba(103,245,231,.42), 0 0 80px rgba(155,108,255,.28); } }
+
         @media (max-width: 760px) {
             .container { width: min(100% - 28px, 600px); }
             .menu-toggle { display: block; }
@@ -134,7 +238,9 @@
             .gallery img, .gallery figure:first-child img { height: 220px; }
             .stats { gap: 4px; }
             .stat strong { font-size: 1.3rem; }
+            .tracker-grid { grid-template-columns: 1fr; }
         }
+
         @media (prefers-reduced-motion: reduce) { *, *::before, *::after { scroll-behavior: auto !important; animation-duration: .01ms !important; transition-duration: .01ms !important; } }
     </style>
 </head>
@@ -145,11 +251,11 @@
             <a class="logo" href="#inicio" aria-label="DegaOj, início"><span class="logo-mark">D</span> DEGAOJ</a>
             <button class="menu-toggle" id="menuToggle" type="button" aria-label="Abrir menu" aria-expanded="false" aria-controls="navLinks">☰</button>
             <ul class="nav-links" id="navLinks">
-                <li><a href="#universo">Universo</a></li>
-                <li><a href="#personagens">Personagens</a></li>
-                <li><a href="#galeria">Galeria</a></li>
-                <li><a href="#trailer">Trailer</a></li>
-                <li><a class="nav-cta" href="#apoie">Apoie o projeto</a></li>
+                <li><a href="#universo" data-track="nav-universo">Universo</a></li>
+                <li><a href="#personagens" data-track="nav-personagens">Personagens</a></li>
+                <li><a href="#galeria" data-track="nav-galeria">Galeria</a></li>
+                <li><a href="#trailer" data-track="nav-trailer">Trailer</a></li>
+                <li><a class="nav-cta" href="#apoie" data-track="nav-apoie">Apoie o projeto</a></li>
             </ul>
         </nav>
     </header>
@@ -160,8 +266,8 @@
             <h1>DEGAOJ</h1>
             <p class="hero-description">Uma aventura de fantasia e ação criada com a força da comunidade. Ajude a transformar uma ideia em um universo inesquecível.</p>
             <div class="actions">
-                <a class="btn btn-primary" href="#apoie">Faça parte do projeto <span aria-hidden="true">→</span></a>
-                <a class="btn btn-secondary" href="#trailer">Assistir ao trailer</a>
+                <a class="btn btn-primary" href="#apoie" data-track="cta-apoie">Faça parte do projeto <span aria-hidden="true">→</span></a>
+                <a class="btn btn-secondary" href="#trailer" data-track="cta-trailer">Assistir ao trailer</a>
             </div>
         </div>
     </header>
@@ -169,30 +275,34 @@
     <main class="container" id="conteudo">
         <section id="universo">
             <div class="section-heading"><span class="section-kicker">Uma nova lenda começa</span><h2>O Universo DegaOj</h2></div>
-            <p class="intro">DegaOj é uma obra original de alta fantasia e ação. A história acompanha <span class="highlight">Kael, portador de um misterioso Colar de Dragão</span>, em uma jornada para descobrir suas origens e o destino de um mundo ameaçado por forças antigas.</p>
-            <div class="stats" aria-label="Informações do projeto"><div class="stat"><strong>2026</strong><span>Previsão de lançamento</span></div><div class="stat"><strong>100%</strong><span>Produção independente</span></div><div class="stat"><strong>∞</strong><span>Possibilidades criativas</span></div></div>
+            <p class="intro">DegaOj é uma obra original de alta fantasia e ação. A história acompanha <span class="highlight">Kael, portador de um misterioso Colar de Dragão</span>, em uma jornada repleta de perigos, descobertas e alianças inesperadas.</p>
+            <div class="stats" aria-label="Informações do projeto">
+                <div class="stat"><strong>2026</strong><span>Previsão de lançamento</span></div>
+                <div class="stat"><strong>100%</strong><span>Comunidade inspirando o universo</span></div>
+                <div class="stat"><strong>∞</strong><span>Possibilidades de mundo e aventura</span></div>
+            </div>
         </section>
 
         <section id="personagens">
             <div class="section-heading"><span class="section-kicker">Conheça a equipe</span><h2>Personagens</h2><p>Os protagonistas que vão conduzir você pelos mistérios deste universo.</p></div>
             <div class="grid">
-                <article class="card"><div class="character-avatar" aria-hidden="true">🧑‍🚀</div><h3>Kael</h3><p>O jovem escolhido pelo Colar de Dragão. Corajoso, curioso e determinado a descobrir a verdade sobre seu passado.</p><span class="tag">O escolhido</span></article>
-                <article class="card"><div class="character-avatar" aria-hidden="true">🧝‍♀️</div><h3>Lyra</h3><p>Uma estrategista habilidosa que conhece os segredos das antigas criaturas mágicas e enxerga além das aparências.</p><span class="tag">A estrategista</span></article>
-                <article class="card"><div class="character-avatar" aria-hidden="true">🐉</div><h3>O Dragão</h3><p>A presença misteriosa ligada ao colar. Sua verdadeira intenção ainda é desconhecida — e talvez seja decisiva.</p><span class="tag">O mistério</span></article>
+                <article class="card"><div class="character-avatar" aria-hidden="true">🧑‍🚀</div><h3>Kael</h3><p>O jovem escolhido pelo Colar de Dragão. Corajoso, curioso e determinado a desvendar o mistério por trás do poder que carrega.</p><span class="tag">Líder</span></article>
+                <article class="card"><div class="character-avatar" aria-hidden="true">🧝‍♀️</div><h3>Lyra</h3><p>Uma estrategista habilidosa que conhece os segredos das antigas criaturas mágicas e guia Kael em cada revelação do caminho.</p><span class="tag">Mente</span></article>
+                <article class="card"><div class="character-avatar" aria-hidden="true">🐉</div><h3>O Dragão</h3><p>A presença misteriosa ligada ao colar. Sua verdadeira intenção ainda é desconhecida, mas seu poder pode mudar o destino de todos.</p><span class="tag">Mistério</span></article>
             </div>
         </section>
 
         <section id="galeria">
             <div class="section-heading"><span class="section-kicker">Conceitos visuais</span><h2>Galeria</h2><p>Uma prévia da atmosfera e dos cenários que inspiram o projeto.</p></div>
             <div class="gallery">
-                <figure><img src="https://images.unsplash.com/photo-1518709268805-4e9042af9f23?auto=format&fit=crop&w=1000&q=85" alt="Paisagem fantástica" loading="lazy"><figcaption>O mundo além do conhecido</figcaption></figure>
-                <figure><img src="https://images.unsplash.com/photo-1534447677768-be436bb09401?auto=format&fit=crop&w=800&q=85" alt="Céu estrelado sobre montanhas" loading="lazy"><figcaption>Terras sob as estrelas</figcaption></figure>
-                <figure><img src="https://images.unsplash.com/photo-1577083552431-6e5fd01aa342?auto=format&fit=crop&w=800&q=85" alt="Arte colorida abstrata" loading="lazy"><figcaption>Energia do Colar</figcaption></figure>
+                <figure><img src="https://images.unsplash.com/photo-1518709268805-4e9042af9f23?auto=format&fit=crop&w=1000&q=85" alt="Paisagem fantástica" loading="lazy"><figcaption>O mundo além do último portal, onde o céu guarda mais mistérios do que o próprio mapa.</figcaption></figure>
+                <figure><img src="https://images.unsplash.com/photo-1534447677768-be436bb09401?auto=format&fit=crop&w=800&q=85" alt="Céu estrelado sobre montanhas" loading="lazy"><figcaption>Terras antigas, montanhas silenciosas e a promessa de uma lenda em forma de fogo.</figcaption></figure>
+                <figure><img src="https://images.unsplash.com/photo-1577083552431-6e5fd01aa342?auto=format&fit=crop&w=800&q=85" alt="Arte colorida abstrata" loading="lazy"><figcaption>Energia do Colar: luz, potência, amor e perigo em cada movimento.</figcaption></figure>
             </div>
         </section>
 
         <section id="trailer">
-            <div class="section-heading"><span class="section-kicker">Assista e compartilhe</span><h2>Trailer e vídeos</h2><p>Confira o vídeo demonstrativo enquanto o trailer oficial está sendo produzido.</p></div>
+            <div class="section-heading"><span class="section-kicker">Assista e compartilhe</span><h2>Trailer e vídeos</h2><p>Confira o vídeo demonstrativo enquanto o trailer oficial está sendo preparado.</p></div>
             <div class="video-wrapper"><iframe src="https://www.youtube.com/embed/ScMzIvxBSi4" title="Trailer demonstrativo de DegaOj" allowfullscreen loading="lazy"></iframe></div>
             <p class="video-note">Este vídeo é demonstrativo. Substitua-o pelo trailer oficial de DegaOj quando estiver disponível.</p>
         </section>
@@ -200,20 +310,24 @@
         <section id="producao">
             <div class="section-heading"><span class="section-kicker">Do sonho à tela</span><h2>Plano de produção</h2></div>
             <div class="grid steps">
-                <article class="card"><span class="step-number">FASE 01</span><h3>Webtoon e curtas</h3><p>Lançamento inicial em quadrinhos, episódios-piloto e vídeos curtos para apresentar o universo.</p></article>
-                <article class="card"><span class="step-number">FASE 02</span><h3>Expansão</h3><p>Construção de público e apresentação do projeto a plataformas e produtoras.</p></article>
-                <article class="card"><span class="step-number">FASE 03</span><h3>Anime completo</h3><p>Produção profissional com uma equipe de artistas, animadores e roteiristas.</p></article>
+                <article class="card"><span class="step-number">FASE 01</span><h3>Webtoon e curtas</h3><p>Lançamento inicial em quadrinhos, episódios-piloto e vídeos curtos para apresentar o universo ao público.</p></article>
+                <article class="card"><span class="step-number">FASE 02</span><h3>Expansão</h3><p>Construção de público e apresentação do projeto a plataformas, parceiros e apoiadores.</p></article>
+                <article class="card"><span class="step-number">FASE 03</span><h3>Anime completo</h3><p>Produção profissional com uma equipe de artistas, animadores, roteiristas e compositores.</p></article>
             </div>
         </section>
 
         <section id="apoie">
-            <div class="section-heading"><span class="section-kicker">Você faz parte da história</span><h2>Apoie a produção</h2><p>Escolha uma cota e ajude a financiar designers, roteiristas e animadores. Toda contribuição ajuda a dar vida ao projeto.</p></div>
+            <div class="section-heading"><span class="section-kicker">Você faz parte da história</span><h2>Apoie a produção</h2><p>Escolha uma cota e ajude a financiar designers, roteiristas e animação.</p></div>
             <div class="grid">
                 <article class="card"><h3>Apoio Fundamental</h3><div class="price">R$ 5</div><p>Atualizações do projeto e participação na construção de personagens secundários.</p></article>
                 <article class="card"><h3>Co-Criador Participativo</h3><div class="price">R$ 10</div><p>Sugestões para o roteiro, fichas técnicas e nome nos créditos do anime.</p></article>
                 <article class="card"><h3>Guardião do Colar</h3><div class="price">R$ 25</div><p>Benefícios das cotas anteriores e acesso antecipado a materiais exclusivos.</p></article>
             </div>
-            <div class="pix-box"><p><strong>Chave Pix (CNPJ):</strong><br><code id="pixKey">65244676000176</code></p><button class="btn btn-primary" id="copyPix" type="button">Copiar chave Pix</button><p class="form-message" id="pixFeedback" aria-live="polite"></p></div>
+            <div class="pix-box">
+                <p><strong>Chave Pix (CNPJ):</strong><br><code id="pixKey">65244676000176</code></p>
+                <button class="btn btn-primary" id="copyPix" type="button" data-track="copiar-pix">Copiar chave Pix</button>
+                <p id="pixFeedback" class="form-message" aria-live="polite"></p>
+            </div>
         </section>
 
         <section id="contato">
@@ -222,50 +336,132 @@
                 <div><label for="name">Nome</label><input id="name" name="name" required placeholder="Seu nome"></div>
                 <div><label for="email">E-mail</label><input id="email" name="email" type="email" required placeholder="voce@email.com"></div>
                 <div><label for="message">Mensagem</label><textarea id="message" name="message" required placeholder="Escreva sua mensagem..."></textarea></div>
-                <button class="btn btn-primary" type="submit">Enviar mensagem <span aria-hidden="true">→</span></button>
+                <button class="btn btn-primary" type="submit" data-track="submit-contato">Enviar mensagem <span aria-hidden="true">→</span></button>
                 <p class="form-message" id="contactFeedback" aria-live="polite"></p>
             </form>
         </section>
+
+        <div class="tracker-box" aria-live="polite">
+            <div class="tracker-head">
+                <span class="tracker-label">Análise do site</span>
+                <span class="tracker-label" id="trackerDomain">animenex-producao.duckdns.org</span>
+            </div>
+            <div class="tracker-grid">
+                <div class="tracker-item"><strong id="visitCount">0</strong><span>visualizações</span></div>
+                <div class="tracker-item"><strong id="clickCount">0</strong><span>cliques</span></div>
+                <div class="tracker-item"><strong id="lastSeen">—</strong><span>último acesso</span></div>
+            </div>
+        </div>
     </main>
 
     <footer>
-        <div class="socials" aria-label="Redes sociais"><a href="https://www.instagram.com/" target="_blank" rel="noopener">Instagram</a><a href="https://www.youtube.com/" target="_blank" rel="noopener">YouTube</a><a href="https://discord.com/" target="_blank" rel="noopener">Discord</a><a href="https://wa.me/5565999999999" target="_blank" rel="noopener">WhatsApp</a></div>
-        <p>&copy; 2026 Projeto DegaOj. Todos os direitos reservados.</p><a class="back-top" href="#inicio">Voltar ao topo ↑</a>
+        <div class="socials" aria-label="Redes sociais"><a href="https://www.instagram.com/" target="_blank" rel="noopener">Instagram</a><a href="https://www.youtube.com/" target="_blank" rel="noopener">YouTube</a><a href="https://x.com/" target="_blank" rel="noopener">X</a></div>
+        <p>&copy; 2026 Projeto DegaOj. Todos os direitos reservados.</p>
+        <a class="back-top" href="#inicio">Voltar ao topo ↑</a>
     </footer>
 
     <script>
-        const menuToggle = document.getElementById('menuToggle');
-        const navLinks = document.getElementById('navLinks');
-        menuToggle.addEventListener('click', () => {
-            const open = navLinks.classList.toggle('open');
-            menuToggle.setAttribute('aria-expanded', String(open));
-            menuToggle.setAttribute('aria-label', open ? 'Fechar menu' : 'Abrir menu');
-        });
-        navLinks.querySelectorAll('a').forEach(link => link.addEventListener('click', () => {
-            navLinks.classList.remove('open');
-            menuToggle.setAttribute('aria-expanded', 'false');
-            menuToggle.setAttribute('aria-label', 'Abrir menu');
-        }));
+        const STORAGE_KEY = 'degaoj_tracker_v1';
+        const domainLabel = document.getElementById('trackerDomain');
+        const visitCount = document.getElementById('visitCount');
+        const clickCount = document.getElementById('clickCount');
+        const lastSeen = document.getElementById('lastSeen');
 
-        document.getElementById('copyPix').addEventListener('click', async () => {
-            const key = document.getElementById('pixKey').textContent.trim();
-            const feedback = document.getElementById('pixFeedback');
+        function formatTime(value) {
+            if (!value) return '—';
+            const date = new Date(value);
+            return date.toLocaleString('pt-BR', { day: '2-digit', month: '2-digit', hour: '2-digit', minute: '2-digit' });
+        }
+
+        function getTrackerState() {
             try {
-                await navigator.clipboard.writeText(key);
-                feedback.textContent = '✓ Chave copiada com sucesso!';
+                const raw = localStorage.getItem(STORAGE_KEY);
+                if (!raw) {
+                    return { visits: 0, clicks: 0, lastVisit: null, lastClick: null };
+                }
+                return JSON.parse(raw);
             } catch (error) {
-                feedback.textContent = 'Não foi possível copiar automaticamente. Selecione a chave manualmente.';
+                return { visits: 0, clicks: 0, lastVisit: null, lastClick: null };
             }
-            setTimeout(() => { feedback.textContent = ''; }, 3500);
-        });
+        }
 
-        document.getElementById('contactForm').addEventListener('submit', event => {
-            event.preventDefault();
-            const data = new FormData(event.currentTarget);
-            const subject = encodeURIComponent('Contato sobre o projeto DegaOj');
-            const body = encodeURIComponent(`Nome: ${data.get('name')}\nE-mail: ${data.get('email')}\n\n${data.get('message')}`);
-            window.location.href = `mailto:contato@animenex-producao.duckdns.org?subject=${subject}&body=${body}`;
-            document.getElementById('contactFeedback').textContent = 'Seu aplicativo de e-mail será aberto para concluir o envio.';
+        function saveTrackerState(state) {
+            try {
+                localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+            } catch (error) {
+                console.warn('Não foi possível salvar o rastreio local:', error);
+            }
+        }
+
+        function renderTracker() {
+            const state = getTrackerState();
+            visitCount.textContent = state.visits;
+            clickCount.textContent = state.clicks;
+            lastSeen.textContent = formatTime(state.lastVisit || state.lastClick);
+            domainLabel.textContent = window.location.hostname || 'animenex-producao.duckdns.org';
+        }
+
+        function registerVisit() {
+            const state = getTrackerState();
+            state.visits = (Number(state.visits) || 0) + 1;
+            state.lastVisit = new Date().toISOString();
+            saveTrackerState(state);
+            renderTracker();
+        }
+
+        function registerClick(label) {
+            const state = getTrackerState();
+            state.clicks = (Number(state.clicks) || 0) + 1;
+            state.lastClick = new Date().toISOString();
+            state.lastLabel = label;
+            saveTrackerState(state);
+            renderTracker();
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            registerVisit();
+
+            document.querySelectorAll('[data-track]').forEach(link => {
+                link.addEventListener('click', () => {
+                    const label = link.dataset.track || 'click';
+                    registerClick(label);
+                });
+            });
+
+            const menuToggle = document.getElementById('menuToggle');
+            const navLinks = document.getElementById('navLinks');
+            menuToggle.addEventListener('click', () => {
+                const open = navLinks.classList.toggle('open');
+                menuToggle.setAttribute('aria-expanded', String(open));
+                menuToggle.setAttribute('aria-label', open ? 'Fechar menu' : 'Abrir menu');
+            });
+
+            navLinks.querySelectorAll('a').forEach(link => link.addEventListener('click', () => {
+                navLinks.classList.remove('open');
+                menuToggle.setAttribute('aria-expanded', 'false');
+                menuToggle.setAttribute('aria-label', 'Abrir menu');
+            }));
+
+            document.getElementById('copyPix').addEventListener('click', async () => {
+                const key = document.getElementById('pixKey').textContent.trim();
+                const feedback = document.getElementById('pixFeedback');
+                try {
+                    await navigator.clipboard.writeText(key);
+                    feedback.textContent = '✓ Chave copiada com sucesso!';
+                } catch (error) {
+                    feedback.textContent = 'Não foi possível copiar automaticamente. Selecione a chave manualmente.';
+                }
+                setTimeout(() => { feedback.textContent = ''; }, 3500);
+            });
+
+            document.getElementById('contactForm').addEventListener('submit', event => {
+                event.preventDefault();
+                const data = new FormData(event.currentTarget);
+                const subject = encodeURIComponent('Contato sobre o projeto DegaOj');
+                const body = encodeURIComponent(`Nome: ${data.get('name')}\nE-mail: ${data.get('email')}\n\n${data.get('message')}`);
+                window.location.href = `mailto:contato@animenex-producao.duckdns.org?subject=${subject}&body=${body}`;
+                document.getElementById('contactFeedback').textContent = 'Seu aplicativo de e-mail será aberto para concluir o envio.';
+            });
         });
     </script>
 </body>
